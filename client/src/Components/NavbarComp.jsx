@@ -8,11 +8,11 @@ function NavbarComp() {
     <>
       <Navbar bg="dark" variant="dark" style={{display: "flex", justifyContent: "space-between", padding: "10px"}}>
           <div className='NavbarLeft'>
-            <Link to="/"><Navbar.Brand>Chat App</Navbar.Brand></Link>
+            <Link to="/" style={{textDecoration: "none"}}><Navbar.Brand>Chat App</Navbar.Brand></Link>
           </div>
           <div>
             <Link to="/signup"><Button style={{marginRight: "10px"}}>Sign Up</Button></Link>
-            <Button variant='outline-primary'>Log In</Button>
+            <Link to="/login"><Button variant='outline-primary'>Log In</Button></Link>
           </div>
       </Navbar>
     </>
