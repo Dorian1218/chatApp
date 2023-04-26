@@ -7,6 +7,7 @@ import Welcome from './Pages/Welcome';
 import SignUp from './Pages/SignUp';
 import Login from './Pages/Login';
 import { UserAuth } from './Context/AuthContext';
+import Main from './Pages/Main';
 
 function App() {
 
@@ -17,7 +18,8 @@ function App() {
       <NavbarComp />
       <div className="Body">
           <Routes>
-            <Route path='/' element={<Welcome />}></Route>
+            {!user && <Route path='/' element={<Welcome />}></Route>}
+            {user && <Route path='/' element={<Main/>}></Route>}
             <Route path="/signup" element={<SignUp />}></Route>
             <Route path="/login" element={<Login />}></Route>
           </Routes>

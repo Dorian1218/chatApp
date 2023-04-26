@@ -2,10 +2,12 @@ import React from 'react'
 import { GoogleButton } from "react-google-button"
 import { Card, Form, Button, Container } from "react-bootstrap"
 import { UserAuth } from '../Context/AuthContext'
+import {useNavigate} from "react-router-dom"
 
 function Login() {
 
     const {signInWithGoogle} = UserAuth()
+    const navigate = useNavigate()
     const handleGoogleLogin = async () => {
         await signInWithGoogle()
     }

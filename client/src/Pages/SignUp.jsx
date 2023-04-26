@@ -4,14 +4,17 @@ import { Card, Form, Button, Container } from "react-bootstrap"
 import { UserAuth } from '../Context/AuthContext'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import {useNavigate} from "react-router-dom"
 
 function SignUp() {
 
   const [isDiabled, setIsDisabled] = useState(false)
   const [buttonText, setButtonText] = useState("Signup")
+  const navigate = useNavigate()
   const { signInWithGoogle } = UserAuth()
   const handleGoogleLogin = async () => {
     await signInWithGoogle()
+    navigate("/")
   }
 
   const handleLogin = () => {
