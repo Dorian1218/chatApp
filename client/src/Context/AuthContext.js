@@ -5,7 +5,7 @@ import {
   signOut,
   onAuthStateChanged,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -29,7 +29,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const logout = () => {
-    return signOut(auth);
+    setTimeout(() => {
+      return signOut(auth);
+    }, 1000)
   };
 
   useEffect(() => {
