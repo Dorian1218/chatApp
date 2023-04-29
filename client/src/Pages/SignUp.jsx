@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleButton } from "react-google-button"
-import { Card, Form, Button, Container } from "react-bootstrap"
+import { Form, Button, Container } from "react-bootstrap"
 import { UserAuth } from '../Context/AuthContext'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -14,7 +14,9 @@ function SignUp() {
   const { signInWithGoogle } = UserAuth()
   const handleGoogleLogin = async () => {
     await signInWithGoogle()
-    navigate("/")
+    setTimeout(() => {
+      navigate("/")
+    }, 1000)
   }
 
   const handleLogin = () => {
@@ -28,8 +30,8 @@ function SignUp() {
   }
 
   return (
-    <div>
-      <Container style={{ width: "450px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <div className='signup-container'>
+      <Container style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <h2>Sign up</h2>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
           <GoogleButton style={{ width: "100%" }} onClick={handleGoogleLogin} />

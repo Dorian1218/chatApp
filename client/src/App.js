@@ -1,8 +1,6 @@
 import './App.css';
-import { GoogleButton } from "react-google-button"
-import { Navbar } from "react-bootstrap"
 import NavbarComp from './Components/NavbarComp';
-import { Routes, Route, Router } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Welcome from './Pages/Welcome';
 import SignUp from './Pages/SignUp';
 import Login from './Pages/Login';
@@ -13,7 +11,6 @@ import NotValidRoute from './Pages/NotValidRoute';
 function App() {
 
   const {user} = UserAuth()
-
   return (
     <div className="App">
       <NavbarComp />

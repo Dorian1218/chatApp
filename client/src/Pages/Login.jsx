@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleButton } from "react-google-button"
-import { Card, Form, Button, Container } from "react-bootstrap"
+import { Form, Button, Container } from "react-bootstrap"
 import { UserAuth } from '../Context/AuthContext'
 import {useNavigate} from "react-router-dom"
 
@@ -10,6 +10,9 @@ function Login() {
     const navigate = useNavigate()
     const handleGoogleLogin = async () => {
         await signInWithGoogle()
+        setTimeout(() => {
+            navigate("/")
+          }, 1000)
     }
 
     return (
