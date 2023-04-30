@@ -4,14 +4,21 @@ import { Form, Button, Container } from "react-bootstrap"
 import { UserAuth } from '../Context/AuthContext'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import AlertComp from '../Components/AlertComp'
 
 function SignUp() {
 
   const [isDiabled, setIsDisabled] = useState(false)
   const [buttonText, setButtonText] = useState("Signup")
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [error, setError] = useState("")
+  const [showMsg, setShowMsg] = useState(false)
   const navigate = useNavigate()
-  const { signInWithGoogle } = UserAuth()
+  const { signInWithGoogle, createUser } = UserAuth()
   const handleGoogleLogin = async () => {
     await signInWithGoogle()
     setTimeout(() => {
@@ -19,14 +26,31 @@ function SignUp() {
     }, 1000)
   }
 
-  const handleLogin = () => {
-    setIsDisabled(true)
-    setButtonText("Loading...")
-    console.log("signed in")
-    setTimeout(() => {
-      setIsDisabled(false)
-      setButtonText("Sign up")
-    }, 1000)
+  const handleLogin = async () => {
+    try {
+      setIsDisabled(true)
+      setButtonText("Loading...")
+      console.log("signed in")
+      await createUser(email, password)
+      setTimeout(() => {
+        setIsDisabled(false)
+        setButtonText("Sign up")
+        navigate("/")
+      }, 1000)
+    }
+    catch (e) {
+      console.log(e.message)
+      if (e.message === "Firebase: Error (auth/invalid-email).") {
+        setShowMsg(true)
+        setError("Email is invalid")
+        setTimeout(() => {
+          setShowMsg(false)
+          setError("")
+          setIsDisabled(false)
+          setButtonText("Sign up")
+        }, 2000)
+      }
+    }
   }
 
   return (
@@ -36,26 +60,26 @@ function SignUp() {
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
           <GoogleButton style={{ width: "100%" }} onClick={handleGoogleLogin} />
         </div>
-
+        <AlertComp message={error} showAlertMsg={showMsg} />
         <Form>
           <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
-            <Form.Control type="text" placeholder="Username" />
+            <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => { setUsername(e.target.value) }} />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} />
           </Form.Group>
           <Button variant="primary" onClick={handleLogin} disabled={isDiabled}>
             {buttonText}
