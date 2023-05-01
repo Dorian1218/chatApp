@@ -27,30 +27,58 @@ function SignUp() {
   }
 
   const handleLogin = async () => {
-    try {
-      setIsDisabled(true)
-      setButtonText("Loading...")
-      console.log("signed in")
-      await createUser(email, password)
+    if (password !== confirmPassword) {
+      setShowMsg(true)
+      setError("Passwords do not match")
+    }
+    const splitPass = password.split("")
+    const allEqual = arr => arr.every(val => val === arr[0]);
+    const equalPass = allEqual(splitPass)
+    if (password === "" || password.length < 6 || equalPass === true) {
+      setShowMsg(true)
+      setError("Invalid Password")
+    }
+    if (email === "" || !email.includes("@")) {
+      setShowMsg(true)
+      setError("Invalid Email")
       setTimeout(() => {
-        setIsDisabled(false)
-        setButtonText("Sign up")
-        navigate("/")
-      }, 1000)
+        setShowMsg(false)
+        setError("")
+      }, 2000)
+      return
     }
-    catch (e) {
-      console.log(e.message)
-      if (e.message === "Firebase: Error (auth/invalid-email).") {
-        setShowMsg(true)
-        setError("Email is invalid")
-        setTimeout(() => {
-          setShowMsg(false)
-          setError("")
-          setIsDisabled(false)
-          setButtonText("Sign up")
-        }, 2000)
-      }
-    }
+    setIsDisabled(true)
+    setButtonText("Loading...")
+    setTimeout(() => {
+      setIsDisabled(false)
+      setButtonText("Sign up")
+    }, 2000)
+    await createUser(email, password)
+    navigate("/")
+    // try {
+    //   setIsDisabled(true)
+    //   setButtonText("Loading...")
+    //   console.log("signed in")
+    //   await createUser(email, password)
+    //   setTimeout(() => {
+    //     setIsDisabled(false)
+    //     setButtonText("Sign up")
+    //     navigate("/")
+    //   }, 1000)
+    // }
+    // catch (e) {
+    //   console.log(e.message)
+    //   if (e.message === "Firebase: Error (auth/invalid-email).") {
+    //     setShowMsg(true)
+    //     setError("Email is invalid")
+    //     setTimeout(() => {
+    //       setShowMsg(false)
+    //       setError("")
+    //       setIsDisabled(false)
+    //       setButtonText("Sign up")
+    //     }, 2000)
+    //   }
+    // }
   }
 
   return (
