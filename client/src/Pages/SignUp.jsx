@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom"
 import AlertComp from '../Components/AlertComp'
+import { db } from "../firebase"
+import { ref, set } from "firebase/database"
 
 function SignUp() {
 
@@ -27,58 +29,56 @@ function SignUp() {
   }
 
   const handleLogin = async () => {
-    if (password !== confirmPassword) {
-      setShowMsg(true)
-      setError("Passwords do not match")
-    }
-    const splitPass = password.split("")
-    const allEqual = arr => arr.every(val => val === arr[0]);
-    const equalPass = allEqual(splitPass)
-    if (password === "" || password.length < 6 || equalPass === true) {
-      setShowMsg(true)
-      setError("Invalid Password")
-    }
-    if (email === "" || !email.includes("@")) {
-      setShowMsg(true)
-      setError("Invalid Email")
+    try {
+      await createUser(email, password)
+      navigate("/")
+      setIsDisabled(true)
+      setButtonText("Loading...")
       setTimeout(() => {
-        setShowMsg(false)
-        setError("")
+        setIsDisabled(false)
+        setButtonText("Sign up")
       }, 2000)
-      return
+    } catch (e) {
+      console.log(e.message)
+      if (password !== confirmPassword) {
+        setShowMsg(true)
+        setError("Passwords do not match")
+        setTimeout(() => {
+          setShowMsg(false)
+          setError("")
+        }, 2000)
+        return
+      }
+      const splitPass = password.split("")
+      const allEqual = arr => arr.every(val => val === arr[0]);
+      const equalPass = allEqual(splitPass)
+      if (password === "" || password.length < 6 || equalPass === true) {
+        setShowMsg(true)
+        setError("Invalid Password")
+        setTimeout(() => {
+          setShowMsg(false)
+          setError("")
+        }, 2000)
+      }
+      if (email === "" || !email.includes("@")) {
+        setShowMsg(true)
+        setError("Invalid Email")
+        setTimeout(() => {
+          setShowMsg(false)
+          setError("")
+        }, 2000)
+        return
+      }
+      if (e.message === "Firebase: Error (auth/email-already-in-use).") {
+        setError("Email is alreaedy in use")
+        setShowMsg(true)
+        setTimeout(() => {
+          setShowMsg(false)
+          setError("")
+        }, 2000)
+        return
+      }
     }
-    setIsDisabled(true)
-    setButtonText("Loading...")
-    setTimeout(() => {
-      setIsDisabled(false)
-      setButtonText("Sign up")
-    }, 2000)
-    await createUser(email, password)
-    navigate("/")
-    // try {
-    //   setIsDisabled(true)
-    //   setButtonText("Loading...")
-    //   console.log("signed in")
-    //   await createUser(email, password)
-    //   setTimeout(() => {
-    //     setIsDisabled(false)
-    //     setButtonText("Sign up")
-    //     navigate("/")
-    //   }, 1000)
-    // }
-    // catch (e) {
-    //   console.log(e.message)
-    //   if (e.message === "Firebase: Error (auth/invalid-email).") {
-    //     setShowMsg(true)
-    //     setError("Email is invalid")
-    //     setTimeout(() => {
-    //       setShowMsg(false)
-    //       setError("")
-    //       setIsDisabled(false)
-    //       setButtonText("Sign up")
-    //     }, 2000)
-    //   }
-    // }
   }
 
   return (
