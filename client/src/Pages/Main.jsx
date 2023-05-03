@@ -25,7 +25,7 @@ function Main() {
           <p>A</p>
         </div>
         <div>
-          {user.email}
+          <p style={{fontSize: "1em"}} className="user-email">{user.email}</p>
         </div>
       </div>
       <div className='chat' style={{ width: "80%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "10px" }}>

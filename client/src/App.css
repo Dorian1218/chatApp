@@ -26,6 +26,12 @@
   color: #d9534f;
 }
 
+@media screen and (max-width: 980px) {
+  .user-email {
+    font-size: 0.8em !important;
+  }
+}
+
 @media screen and (max-width: 457px) {
   .signup-container {
     width: 90vw;
