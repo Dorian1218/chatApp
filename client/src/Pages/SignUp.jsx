@@ -24,7 +24,7 @@ function SignUp() {
   const handleGoogleLogin = async () => {
     await signInWithGoogle()
     setTimeout(() => {
-      navigate("/")
+      navigate("/moreinfo")
     }, 1000)
   }
 
