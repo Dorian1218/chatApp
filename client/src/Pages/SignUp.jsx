@@ -90,10 +90,10 @@ function SignUp() {
         </div>
         <AlertComp message={error} showAlertMsg={showMsg} />
         <Form>
-          <Form.Group className="mb-3" controlId="formBasicUsername">
+          {/* <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Username</Form.Label>
             <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => { setUsername(e.target.value) }} />
-          </Form.Group>
+          </Form.Group> */}
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>

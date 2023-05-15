@@ -10,18 +10,18 @@ import NotValidRoute from './Pages/NotValidRoute';
 
 function App() {
 
-  const {user} = UserAuth()
+  const { user } = UserAuth()
   return (
     <div className="App">
       <NavbarComp />
       <div className="Body">
-          <Routes>
-            {!user && <Route path='/' element={<Welcome />}></Route>}
-            {user && <Route path='/' element={<Main/>}></Route>}
-            {!user && <Route path="/signup" element={<SignUp />}></Route>}
-            {!user && <Route path="/login" element={<Login />}></Route>}
-            <Route path="*" element={<NotValidRoute />}></Route>
-          </Routes>
+        <Routes>
+          {!user && <Route path='/' element={<Welcome />}></Route>}
+          {user && <Route path='/' element={<Main />}></Route>}
+          {!user && <Route path="/signup" element={<SignUp />}></Route>}
+          {!user && <Route path="/login" element={<Login />}></Route>}
+          <Route path="*" element={<NotValidRoute />}></Route>
+        </Routes>
       </div>
     </div>
   );
