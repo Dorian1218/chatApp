@@ -8,17 +8,19 @@ import { db } from "../firebase"
 import { ref, set } from "firebase/database"
 import {collection, addDoc} from "firebase/firestore"
 
+export const usersCollectionRef = collection(db, "users")
+
 const MoreInfo = () => {
 
     const [username, setUsername] = useState("")
     const navigate = useNavigate()
     const {user} = UserAuth()
-    const usersCollectionRef = collection(db, "users")
     const createFullAcc = async () => {
         if (username === "") {
             return
         }
         await addDoc(usersCollectionRef, {email: user.email, username: username})
+        console.log(usersCollectionRef)
         navigate("/")
     }
 

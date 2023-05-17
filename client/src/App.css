@@ -1,3 +1,7 @@
+* {
+
+}
+
 .Body {
   height: calc(100vh - 58px);
   background-color: lightblue;
@@ -24,6 +28,11 @@
 
 .alert-msg {
   color: #d9534f;
+}
+
+.user-email {
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 980px) {

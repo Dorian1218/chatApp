@@ -31,7 +31,7 @@ function SignUp() {
   const handleLogin = async () => {
     try {
       await createUser(email, password)
-      navigate("/")
+      navigate("/moreinfo")
       setIsDisabled(true)
       setButtonText("Loading...")
       setTimeout(() => {
