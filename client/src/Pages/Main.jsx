@@ -4,12 +4,15 @@ import { Button, Form } from 'react-bootstrap'
 import { CiPaperplane } from "react-icons/ci"
 import { BsPower } from "react-icons/bs"
 import { getDocs } from 'firebase/firestore'
-import { usersCollectionRef } from './MoreInfo'
+import { usersCollectionRef } from './SignUp'
 import { useState } from 'react'
+import {useNavigate} from "react-router-dom"
 
 function Main() {
 
-  const { user } = UserAuth()
+  const { user, logout } = UserAuth()
+  const [buttonText, setButtonText] = useState("Logout")
+  const navigate = useNavigate()
   var dbUsers = []
   var userdata = []
   var [username, setUsername] = useState()
@@ -36,11 +39,20 @@ function Main() {
     }, 1000)
   }, [])
 
-  console.log(dbUsers)
+  const handleLogout = async () => {
+    setButtonText("Logging out...")
+    setTimeout(() => {
+      setButtonText("Logout")
+    }, 1000)
+    await logout()
+    navigate("/")
+  }
+
   return (
     <div className="main-page" style={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
       <div className='sideBar'>
         <div>
+          {/* <img className="avatar" src='defaultprofilepic.jpeg'/> */}
           <p>{username}</p>
         </div>
         <div>
@@ -54,9 +66,9 @@ function Main() {
         </div>
         <div>
           <p style={{ fontSize: "1em" }} className="user-email">
-            <button style={{background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center"}}>
+            <button style={{background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center"}} onClick={handleLogout}>
             <BsPower style={{marginRight: "10px"}}/> 
-            Logout
+            {buttonText}
             </button>
           </p>
         </div>

@@ -49,7 +49,7 @@ function NavbarComp() {
         <div className='NavbarRight'>
           {!user && <Link to="/signup"><Button style={{ marginRight: "10px" }}>Sign Up</Button></Link>}
           {!user && <Link to="/login"><Button variant='outline-primary'>Log In</Button></Link>}
-          {user && <Button variant='danger' disabled={isDisabled} onClick={handleLogout}>{buttonText}</Button>}
+          {user && <Link to="/account"><img className='avatar-small' src='defaultprofilepic.jpeg' /></Link>}
         </div>
         <div className='NavbarRightAlt'>
           <GiHamburgerMenu fill='#fff' onClick={dropdown} />

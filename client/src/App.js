@@ -7,7 +7,7 @@ import Login from './Pages/Login';
 import { UserAuth } from './Context/AuthContext';
 import Main from './Pages/Main';
 import NotValidRoute from './Pages/NotValidRoute';
-import MoreInfo from './Pages/MoreInfo';
+import Account from './Pages/Account';
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
           {user && <Route path='/' element={<Main />}></Route>}
           {!user && <Route path="/signup" element={<SignUp />}></Route>}
           {!user && <Route path="/login" element={<Login />}></Route>}
-          {user && <Route path="/moreinfo" element={<MoreInfo />}></Route>}
+          {user && <Route path='/account' element={<Account />}></Route>}
           <Route path="*" element={<NotValidRoute />}></Route>
         </Routes>
       </div>

@@ -7,7 +7,10 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom"
 import AlertComp from '../Components/AlertComp'
 import { db } from "../firebase"
+import { collection, addDoc } from "firebase/firestore"
 import { ref, set } from "firebase/database"
+
+export const usersCollectionRef = collection(db, "users")
 
 function SignUp() {
 
@@ -24,7 +27,7 @@ function SignUp() {
   const handleGoogleLogin = async () => {
     await signInWithGoogle()
     setTimeout(() => {
-      navigate("/moreinfo")
+      navigate("/")
     }, 1000)
   }
 
@@ -34,6 +37,9 @@ function SignUp() {
       navigate("/moreinfo")
       setIsDisabled(true)
       setButtonText("Loading...")
+      await addDoc(usersCollectionRef, { email: email, username: username })
+      console.log(usersCollectionRef)
+      navigate("/")
       setTimeout(() => {
         setIsDisabled(false)
         setButtonText("Sign up")
@@ -100,6 +106,11 @@ function SignUp() {
             <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
           </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formBasicUsername">
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="text" placeholder="Username" value={username} onChange={(e) => { setUsername(e.target.value) }} />
+          </Form.Group>
+
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
@@ -109,6 +120,7 @@ function SignUp() {
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} />
           </Form.Group>
+
           <Button variant="primary" onClick={handleLogin} disabled={isDiabled}>
             {buttonText}
           </Button>
