@@ -5,6 +5,7 @@ import { UserAuth } from '../Context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { GiHamburgerMenu } from "react-icons/gi"
 import NavbarDrop from './NavbarDrop'
+import { useEffect } from 'react'
 
 function NavbarComp() {
 
@@ -13,6 +14,7 @@ function NavbarComp() {
   const [buttonText, setButtonText] = useState("Logout")
   const [isDisabled, setIsDisabled] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
+  const [photoUrl, setPhotoUrl] = useState("defaultprofilepic.jpeg")
   const handleLogout = async () => {
     setButtonText("Logging out...")
     setIsDisabled(true)
@@ -39,6 +41,10 @@ function NavbarComp() {
     setShowDropdown(false)
   }
 
+  useEffect(() => {
+    setPhotoUrl(user.photoURL)
+  }, [])
+
 
   return (
     <>
@@ -49,7 +55,7 @@ function NavbarComp() {
         <div className='NavbarRight'>
           {!user && <Link to="/signup"><Button style={{ marginRight: "10px" }}>Sign Up</Button></Link>}
           {!user && <Link to="/login"><Button variant='outline-primary'>Log In</Button></Link>}
-          {user && <Link to="/account"><img className='avatar-small' src='defaultprofilepic.jpeg' /></Link>}
+          {user && <Link to="/account"><img className='avatar-small' src={user.photoURL} /></Link>}
         </div>
         <div className='NavbarRightAlt'>
           <GiHamburgerMenu fill='#fff' onClick={dropdown} />

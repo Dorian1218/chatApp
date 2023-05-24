@@ -53,7 +53,7 @@
   border-radius: 50%;
   border-width: 5px;
   border-color: grey;
-  border-style: outset;
+  border-style: solid;
 }
 
 .avatar-small {
