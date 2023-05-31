@@ -11,6 +11,7 @@ import { collection, addDoc } from "firebase/firestore"
 import { ref, set } from "firebase/database"
 
 export const usersCollectionRef = collection(db, "users")
+export var usernameFromSignUp 
 
 function SignUp() {
 
@@ -37,7 +38,7 @@ function SignUp() {
       navigate("/moreinfo")
       setIsDisabled(true)
       setButtonText("Loading...")
-      await addDoc(usersCollectionRef, { email: email, username: username })
+      usernameFromSignUp = username
       console.log(usersCollectionRef)
       navigate("/")
       setTimeout(() => {

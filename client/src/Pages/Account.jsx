@@ -1,3 +1,4 @@
+import { updateProfile } from 'firebase/auth'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -11,16 +12,18 @@ const Account = () => {
     const [photoUrl, setPhotoUrl] = useState("defaultprofilepic.jpeg")
     const [photo, setPhoto] = useState(null)
     const [loading, setLoading] = useState(false)
+    const showInfo = () => {
+        console.log(user)
+    }
 
     useEffect(() => {
-        if (user.photoURL) {
-            setPhotoUrl(user.photoURL)
-            console.log(user.photoURL)
+        if (!user.photoURL) {
+            updateProfile(user, {photoURL: photoUrl})
         }
 
         else {
-            user.photoURL = photoUrl
-            console.log(user.photoURL)
+            setPhotoUrl(user.photoURL)
+            console.log(photoUrl)
         }
     }, [])
 
@@ -46,6 +49,7 @@ const Account = () => {
                 </div>
                 <div>
                     Hello
+                    <button onClick={showInfo}>User</button>
                 </div>
             </div>
         </div>

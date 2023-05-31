@@ -23,7 +23,7 @@
 }
 
 .sideBar1 {
-  width: 40%;
+  width: 30%;
   height: calc(100vh - 50px);
   padding: 10px; 
   display: flex; 
