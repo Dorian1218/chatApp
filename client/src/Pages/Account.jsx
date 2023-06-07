@@ -8,7 +8,7 @@ import { upload } from '../Context/StorageContext'
 
 const Account = () => {
 
-    const {user} = UserAuth()
+    const { user } = UserAuth()
     const [photoUrl, setPhotoUrl] = useState("defaultprofilepic.jpeg")
     const [photo, setPhoto] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -18,7 +18,7 @@ const Account = () => {
 
     useEffect(() => {
         if (!user.photoURL) {
-            updateProfile(user, {photoURL: photoUrl})
+            updateProfile(user, { photoURL: photoUrl })
         }
 
         else {
@@ -40,11 +40,12 @@ const Account = () => {
     return (
         <div className="main-page" style={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
             <div className='sideBar1'>
-                <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <img className="avatar" src={user.photoURL} />
-                    <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
-                    <input type="file" style={{width: "68%"}} onChange={handleChange}></input>
-                    <button onClick={handleClick}>Set Photo</button>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", margin: "10px" }}>
+                        <button className='choosePhoto'>Choose Photo</button>
+                        <input type="file" style={{ width: "68%" }} onChange={handleChange} className='fileChoose'></input>
+                        {/* <button onClick={handleClick}>Set Photo</button> */}
                     </div>
                 </div>
                 <div>

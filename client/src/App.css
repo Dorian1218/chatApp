@@ -66,6 +66,20 @@
   border-style: solid;
 }
 
+.fileChoose {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.choosePhoto {
+  position: absolute;
+  width: 17%;
+  z-index: 1;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 980px) {
   .user-email {
     font-size: 0.8em !important;
