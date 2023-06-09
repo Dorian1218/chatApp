@@ -3,11 +3,14 @@ import { UserAuth } from '../Context/AuthContext'
 import { Button, Form, Nav } from 'react-bootstrap'
 import { CiPaperplane } from "react-icons/ci"
 import { BsPower } from "react-icons/bs"
-import { addDoc, getDocs } from 'firebase/firestore'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { usernameFromSignUp, usersCollectionRef } from './SignUp'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom"
 import { updateProfile } from 'firebase/auth'
+import { db } from "../firebase"
+
+export const UNIVERSALPHOTOID = "defaultprofilepic.jpeg"
 
 function Main() {
 
@@ -16,12 +19,22 @@ function Main() {
   const navigate = useNavigate()
   var dbUsers = []
   var userdata = []
-  var [username, setUsername] = useState()
+  const [username, setUsername] = useState()
+  const [users, setUsers] = useState()
+  const [err, setErr] = useState()
+  const showInfo = () => {
+    console.log(user)
+  }
 
   useEffect(() => {
     const getUsers = async () => {
       if (!user.displayName) {
         updateProfile(user, { displayName: usernameFromSignUp })
+        console.log(user.displayName)
+      }
+
+      if (!user.photoURL) {
+        updateProfile(user, { photoURL: UNIVERSALPHOTOID })
       }
       const data = await getDocs(usersCollectionRef)
       data.forEach((doc) => {
@@ -39,10 +52,9 @@ function Main() {
         usersEmails.push(users.email)
       })
       if (!usersEmails.includes(user.email)) {
-        addDoc(usersCollectionRef, { email: user.email, username: user.displayName, id: user.uid })
+        addDoc(usersCollectionRef, { email: user.email, username: user.displayName, id: user.uid, photoURL: user.photoURL })
       }
       console.log(dbUsers)
-      setUsername(userdata[1])
     }
 
     setTimeout(() => {
@@ -59,12 +71,38 @@ function Main() {
     navigate("/")
   }
 
+  const handleSearch = async () => {
+    const q = query(collection(db, "users"), where("username", "==", username))
+
+    try {
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, "=>", doc.data())
+        setUsers(doc.data())
+        console.log(users)
+      })
+    } catch (e) {
+      setErr(true)
+      console.log(e.message)
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    e.code === "Enter" && handleSearch()
+  }
+
   return (
     <div className="main-page" style={{ display: "flex", justifyContent: "flex-start", width: "100%" }}>
       <div className='sideBar'>
-        <div>
+        <div style={{ width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
           {/* <img className="avatar" src='defaultprofilepic.jpeg'/> */}
-          <p>Logged in as: {user.displayName}</p>
+          <p style={{ textAlign: "center" }}>Logged in as: {user.displayName}</p>
+          <input placeholder='Search for Users...' onChange={(e) => setUsername(e.target.value)} onKeyDown={handleKeyDown} style={{ width: "90%", border: "none", backgroundColor: "transparent", borderBottom: "1px solid black" }} />
+          <span style={{padding: "5px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid black", margin: "5px"}} onClick={{handleSelect}}>
+            {err && <p>User Not Found. Try Again</p>}
+            {users && !err && <img src={users.photoURL} className="avatar-medium" style={{marginRight: "5px"}}/>}
+            {users && !err && <p style={{textAlign: "center", margin: "0"}}>{users.username}</p>}
+          </span>
         </div>
         <div>
           <Nav className="flex-column">
@@ -77,6 +115,7 @@ function Main() {
               <BsPower style={{ marginRight: "10px" }} />
               {buttonText}
             </button>
+            <button onClick={showInfo}>Press</button>
           </p>
         </div>
       </div>
