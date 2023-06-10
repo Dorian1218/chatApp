@@ -25,7 +25,7 @@ function Main() {
   var dbUsers = []
   var userdata = []
   const [username, setUsername] = useState("")
-  const [users, setUsers] = useState("")
+  const [users, setUsers] = useState({})
   const [err, setErr] = useState(false)
   const [chats, setChats] = useState()
   const [messages, setMessages] = useState([])
@@ -100,7 +100,7 @@ function Main() {
   }
 
   const handleSelect = async () => {
-    const combinedID = user.uid > users.id ? user.uid + users.id : users.id + user.uid
+    const combinedID = user.uid > users.uid ? user.uid + users.uid : users.uid + user.uid
 
     try {
       const res = await getDoc(doc(db, "chats", combinedID))
@@ -115,7 +115,7 @@ function Main() {
 
           await updateDoc(doc(db, "usersChats", user.uid), {
             [combinedID + ".userInfo"]: {
-              uid: users.id,
+              uid: users.uid,
               displayName: users.username,
               photoURL: users.photoURL
             },
@@ -135,6 +135,7 @@ function Main() {
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "usersChats", user.uid), (doc) => {
         setChats(doc.data())
+        console.log(doc.data())
       })
 
       return () => {
@@ -147,6 +148,7 @@ function Main() {
 
   const handleSelectChatter = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u })
+    console.log("success")
   }
 
   useEffect(() => {
@@ -176,8 +178,8 @@ function Main() {
               return (
                 <div>
                   <div key={chat[0]} style={{ display: "flex" }} onClick={() => handleSelectChatter(chat[1].userInfo)} className='user-chatter'>
-                    <img src={chat[1].userInfo?.photoURL} className="avatar-medium" />
-                    <p style={{ textAlign: "center", margin: "0" }}>{chat[1].userInfo?.displayName}</p>
+                    <img src={chat[1].userInfo.photoURL} className="avatar-medium" />
+                    <p style={{ textAlign: "center", margin: "0" }}>{chat[1].userInfo.displayName}</p>
                   </div>
                   <p>{chat[1].lastMessage?.text}</p>
                 </div>

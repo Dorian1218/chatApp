@@ -17,9 +17,9 @@ export const ChatContextProvider = ({ children }) => {
         return {
           user: action.payload,
           chatId:
-            user.uid > action.payload?.uid
-              ? user.uid + action.payload?.uid
-              : action.payload?.uid + user.uid,
+            user.uid > action.payload.uid
+              ? user.uid + action.payload.uid
+              : action.payload.uid + user.uid,
         };
 
       default:
