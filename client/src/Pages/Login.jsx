@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { GoogleButton } from "react-google-button"
 import { Form, Button, Container } from "react-bootstrap"
 import { UserAuth } from '../Context/AuthContext'
@@ -6,10 +6,20 @@ import { useNavigate } from "react-router-dom"
 
 function Login() {
 
-    const { signInWithGoogle } = UserAuth()
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    const { signInWithGoogle, login } = UserAuth()
     const navigate = useNavigate()
     const handleGoogleLogin = async () => {
         await signInWithGoogle()
+        setTimeout(() => {
+            navigate("/")
+        }, 1000)
+    }
+
+    const handleLogin = async () => {
+        await login(email, password)
         setTimeout(() => {
             navigate("/")
         }, 1000)
@@ -25,14 +35,14 @@ function Login() {
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
                     </Form.Group>
-                    <Button variant="primary">
+                    <Button variant="primary" onClick={handleLogin}>
                         Login
                     </Button>
                 </Form>

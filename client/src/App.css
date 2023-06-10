@@ -90,6 +90,36 @@
   cursor: pointer;
 }
 
+.user-window {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.user-window:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.user-chatter {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.user-chatter:hover {
+  background-color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+
+.owner {
+  background-color: lightseagreen;
+
+}
+
+.message {
+  margin: 10px;
+  border-radius: 20px;
+  padding: 5px;
+  width: 100px;
+}
+
 @media screen and (max-width: 980px) {
   .user-email {
     font-size: 0.8em !important;

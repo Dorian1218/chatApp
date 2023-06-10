@@ -5,6 +5,8 @@ import { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { UserAuth } from '../Context/AuthContext'
 import { upload } from '../Context/StorageContext'
+import { collection } from 'firebase/firestore'
+import { db } from '../firebase'
 
 const Account = () => {
 
@@ -45,7 +47,9 @@ const Account = () => {
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", margin: "10px" }}>
                         <button className='choosePhoto'>Choose Photo</button>
                         <input type="file" style={{ width: "68%" }} onChange={handleChange} className='fileChoose'></input>
-                        {/* <button onClick={handleClick}>Set Photo</button> */}
+                    </div>
+                    <div>
+                        <button onClick={handleClick}>Set Photo</button>
                     </div>
                 </div>
                 <div>
